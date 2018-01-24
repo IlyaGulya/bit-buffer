@@ -9,15 +9,14 @@
  *
  **********************************************************/
 var BitView = function (source, byteOffset, byteLength) {
-	var isBuffer = source instanceof ArrayBuffer ||
-		(typeof Buffer !== 'undefined' && source instanceof Buffer);
+	var isBuffer = source instanceof ArrayBuffer;
 
 	if (!isBuffer) {
-		throw new Error('Must specify a valid ArrayBuffer or Buffer.');
+		throw new Error('Must specify a valid ArrayBuffer.');
 	}
 
 	byteOffset = byteOffset || 0;
-	byteLength = byteLength || source.byteLength /* ArrayBuffer */ || source.length /* Buffer */;
+	byteLength = byteLength || source.byteLength /* ArrayBuffer */;
 
 	this._view = new Uint8Array(source, byteOffset, byteLength);
 };
@@ -27,7 +26,7 @@ var BitView = function (source, byteOffset, byteLength) {
 BitView._scratch = new DataView(new ArrayBuffer(8));
 
 Object.defineProperty(BitView.prototype, 'buffer', {
-	get: function () { return Buffer.from(this._view.buffer); },
+	get: function () { return this._view.buffer; },
 	enumerable: true,
 	configurable: false
 });
@@ -302,11 +301,10 @@ function stringToByteArray(str) { // https://gist.github.com/volodymyr-mykhailyk
 }
 
 var BitStream = function (source, byteOffset, byteLength) {
-	var isBuffer = source instanceof ArrayBuffer ||
-		(typeof Buffer !== 'undefined' && source instanceof Buffer);
+	var isBuffer = source instanceof ArrayBuffer;
 
 	if (!(source instanceof BitView) && !isBuffer) {
-		throw new Error('Must specify a valid BitView, ArrayBuffer or Buffer');
+		throw new Error('Must specify a valid BitView, ArrayBuffer');
 	}
 
 	if (isBuffer) {

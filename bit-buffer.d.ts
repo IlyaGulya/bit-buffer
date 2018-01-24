@@ -3,6 +3,7 @@ declare module 'bit-buffer' {
 	export class BitView {
 		constructor(buffer: ArrayBuffer, byteOffset?: number, byteLength?: number);
 
+		readonly buffer: ArrayBuffer;
 		readonly byteLength: number;
 
 		getBits(offset: number, bits: number, signed?: boolean): number;
@@ -47,6 +48,7 @@ declare module 'bit-buffer' {
 
 		readonly length: number;
 		readonly bitsLeft: number;
+		readonly buffer: ArrayBuffer;
 		readonly view: BitView;
 		byteIndex: number;
 		index: number;
