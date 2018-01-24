@@ -169,8 +169,10 @@ BitView.prototype.setFloat64 = function (offset, value) {
 };
 BitView.prototype.getArrayBuffer = function (bitOffset, byteLength, littleEndian) {
     var buffer = new Uint8Array(byteLength);
+    // offset + current position
     var bigEndianPositionResolver = (i) => bitOffset + (i * 8);
-    var littleEndianPositionResolver = (i) => bitOffset + (byteLength * 8) - (i * 8);
+    // offset + array length - current position - 8 bytes because we still read bytes in big-endian
+    var littleEndianPositionResolver = (i) => bitOffset + (byteLength * 8) - (i * 8) - 8;
     var positionResolver = littleEndian ? littleEndianPositionResolver : bigEndianPositionResolver;
     for (var i = 0; i < byteLength; i++) {
         buffer[i] = this.getUint8(positionResolver(i));
