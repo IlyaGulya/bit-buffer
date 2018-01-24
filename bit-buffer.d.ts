@@ -2,7 +2,7 @@ declare module 'bit-buffer' {
 	import {Buffer} from 'buffer';
 
 	export class BitView {
-		constructor(buffer: ArrayBuffer | Buffer, byteLength?: number);
+		constructor(buffer: ArrayBuffer | Buffer, byteOffset?: number, byteLength?: number);
 
 		readonly buffer: Buffer;
 		readonly byteLength: number;
