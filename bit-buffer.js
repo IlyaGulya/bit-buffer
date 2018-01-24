@@ -167,12 +167,15 @@ BitView.prototype.setFloat64 = function (offset, value) {
 	this.setBits(offset, BitView._scratch.getUint32(0), 32);
 	this.setBits(offset+32, BitView._scratch.getUint32(4), 32);
 };
-BitView.prototype.getArrayBuffer = function (offset, byteLength) {
-	var buffer = new Uint8Array(byteLength);
-	for (var i = 0; i < byteLength; i++) {
-		buffer[i] = this.getUint8(offset + (i * 8));
-	}
-	return buffer;
+BitView.prototype.getArrayBuffer = function (bitOffset, byteLength, littleEndian) {
+    var buffer = new Uint8Array(byteLength);
+    var bigEndianPositionResolver = (i) => bitOffset + (i * 8);
+    var littleEndianPositionResolver = (i) => bitOffset + (byteLength * 8) - (i * 8);
+    var positionResolver = littleEndian ? littleEndianPositionResolver : bigEndianPositionResolver;
+    for (var i = 0; i < byteLength; i++) {
+        buffer[i] = this.getUint8(positionResolver(i));
+    }
+    return buffer;
 };
 
 /**********************************************************
