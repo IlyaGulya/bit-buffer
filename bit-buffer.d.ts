@@ -41,6 +41,8 @@ declare module 'bit-buffer' {
 		setFloat32(offset: number, value: number);
 
 		setFloat64(offset: number, value: number);
+
+		getArrayBuffer(offset: number, byteSize: number);
 	}
 
 	export class BitStream {
